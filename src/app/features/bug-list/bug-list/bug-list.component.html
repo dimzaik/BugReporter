@@ -1,0 +1,21 @@
+<div>
+  <!--<ul>
+    <li class="list-group-item" *ngFor="let bug of buglist">
+      Title:{{bug.title}} Status:{{bug.status}} Priority: {{bug.priority}} Reporter: {{bug.reporter}}  Created On: {{bug.createdAt}}
+    </li>
+  </ul>-->
+    <table>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Reporter</th>
+      <th>Created On</th>
+      <tr *ngFor="let bug of buglist">
+        <td>{{ bug.title }}</td>
+        <td>{{ bug.status }}</td>
+        <td>{{ bug.priority }}</td>
+        <td>{{ bug.reporter }}</td>
+        <td>{{ bug.createdAt }}</td>
+      </tr>
+    </table>
+</div>
