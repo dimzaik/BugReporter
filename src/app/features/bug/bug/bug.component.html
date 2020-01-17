@@ -1,8 +1,6 @@
-<a class="link" [routerLink]="''">List</a>
-
 <form [formGroup]="form" (submit)="formSubmit(form)">
 
-  <div class="form-group">
+  <div class="row form-group">
     <label  for="titleInput">Title</label>
     <input  type="text"
             class="form-control"
@@ -18,7 +16,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="row form-group">
     <label  for="descriptionInput">Description</label>
     <input  type="text"
             class="form-control"
@@ -30,7 +28,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="row form-group">
     <label class="form-control-label">Priority</label>
     <select class="form-control" formControlName="priorities">
       <option [ngValue]="null">Select</option>
@@ -43,20 +41,7 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label class="form-control-label">Priority</label>
-    <select class="form-control" formControlName="priorities">
-      <option [ngValue]="null">Select</option>
-      <option *ngFor="let lang of priorities" [ngValue]="lang">
-        {{lang}}
-      </option>
-    </select>
-    <div *ngIf="form.get('priorities').invalid && form.get('priorities').dirty" class="text-danger">
-      Field is required
-    </div>
-  </div>
-
-  <div class="form-group">
+  <div class="row form-group">
     <label class="form-control-label">Reporter</label>
     <select class="form-control" formControlName="reporter">
       <option [ngValue]="null">Select</option>
@@ -69,7 +54,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="row form-group">
     <label class="form-control-label">Status</label>
     <select class="form-control" formControlName="status">
       <option [ngValue]="null">Select</option>
@@ -82,5 +67,12 @@
     </div>
   </div>
 
-  <button class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+  <div class="row">
+    <div class="col-form-label">
+      <button class="mat-button" [disabled]="!form.valid">Submit</button>
+    </div>
+    <div class="col-form-label">
+    <button class="mat-button" [routerLink]="''">Cancel</button>
+    </div>
+  </div>
 </form>

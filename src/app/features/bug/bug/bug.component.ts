@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Bug, BugService} from '../../../core/bug.service';
 
 @Component({
   selector: 'app-bug',
@@ -9,12 +10,11 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export class BugComponent implements OnInit {
 
   form: FormGroup;
-  reporters = ['TS', 'JS', 'C#'];
-  statuses = ['TS', 'JS', 'C#'];
-  priorities = ['TS', 'JS', 'C#'];
-
-  constructor() { }
-
+  reporters = ['QA', 'PO', 'R3'];
+  statuses = ['Ready for test', 'Done', 'S3'];
+  priorities = ['1', '2', '3'];
+  constructor(private bugService: BugService) { }
+  public bug: Bug;
   ngOnInit() {
     this.form = new FormGroup({
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
@@ -23,24 +23,14 @@ export class BugComponent implements OnInit {
       reporter: new FormControl(null, Validators.required),
       status: new FormControl(null, Validators.required),
     });
-
-
-    this.form.get('favouriteLanguage').valueChanges.subscribe(value => {
-
-      const jsVersionFormControl = this.form.get('jsversion');
-
-      if (value === 'JS') {
-        jsVersionFormControl.setValidators(Validators.required);
-      } else {
-        jsVersionFormControl.clearValidators();
-      }
-      jsVersionFormControl.updateValueAndValidity();
-    });
-
   }
 
   formSubmit(form: FormGroup) {
-    console.log(form.value);
+    this.bug = form.value;
+    this.bug.createdAt = new Date();
+    this.bugService.pushBug(this.bug).subscribe(response => {
+      console.log(response);
+    });
   }
 
 }
