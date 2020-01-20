@@ -8,6 +8,7 @@ export interface Bug {
   reporter: string;
   createdAt: any;
   status: string;
+  comments: any[];
 }
 @Injectable({
   providedIn: 'root'

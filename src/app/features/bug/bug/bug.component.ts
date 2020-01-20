@@ -10,16 +10,16 @@ import {Bug, BugService} from '../../../core/bug.service';
 export class BugComponent implements OnInit {
 
   form: FormGroup;
-  reporters = ['QA', 'PO', 'R3'];
-  statuses = ['Ready for test', 'Done', 'S3'];
-  priorities = ['1', '2', '3'];
+  reporters = ['QA', 'PO', 'DEV'];
+  statuses = ['Ready for test', 'Done', 'Rejected'];
+  priority = [1, 2, 3];
   constructor(private bugService: BugService) { }
   public bug: Bug;
   ngOnInit() {
     this.form = new FormGroup({
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
       description: new FormControl(null, Validators.required),
-      priorities: new FormControl(null, Validators.required),
+      priority: new FormControl(null, Validators.required),
       reporter: new FormControl(null, Validators.required),
       status: new FormControl(null, Validators.required),
     });
