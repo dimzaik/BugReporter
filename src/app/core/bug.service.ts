@@ -6,7 +6,7 @@ export interface Bug {
   title: string;
   priority: number;
   reporter: string;
-  createdAt: any;
+  createdAt: Date;
   status: string;
   comments: any[];
 }
