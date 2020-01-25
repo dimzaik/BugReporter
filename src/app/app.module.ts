@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {CoreModule} from './core/core.module';
 import {BugListModule} from './features/bug-list/bug-list.module';
+import {BugModule} from './features/bug/bug.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import {BugListModule} from './features/bug-list/bug-list.module';
       BrowserModule,
       AppRoutingModule,
       CoreModule,
-      BugListModule
+      BugListModule,
+      BugModule,
+      BrowserAnimationsModule
     ],
   providers: [],
   bootstrap: [AppComponent]
