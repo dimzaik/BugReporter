@@ -6,7 +6,8 @@ import {BugComponent} from './features/bug/bug/bug.component';
 
 const routes: Routes = [
   { path: '', component: BugListComponent },
-  { path: 'addEdit', component: BugComponent }
+  { path: 'addBug', component: BugComponent },
+  { path: 'editBug/:id', component: BugComponent }
 ];
 
 @NgModule({
