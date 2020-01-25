@@ -1,6 +1,20 @@
 <form [formGroup]="form" (submit)="formSubmit(form)">
 
   <div class="row form-group">
+    <label  for="createdInput">Date Created</label>
+    <input  type="text"
+            class="form-control"
+            id="createdInput"
+            placeholder="Date created"
+            formControlName="createdAt"
+            disabled="true">
+
+    <div *ngIf="form.get('createdAt').errors?.required && form.get('createdAt').dirty" class="text-danger">
+      Field is required
+    </div>
+  </div>
+
+  <div class="row form-group">
     <label  for="titleInput">Title</label>
     <input  type="text"
             class="form-control"
@@ -32,8 +46,8 @@
     <label class="form-control-label">Priority</label>
     <select class="form-control" formControlName="priority">
       <option [ngValue]="null">Select</option>
-      <option *ngFor="let lang of priority" [ngValue]="lang">
-        {{lang}}
+      <option *ngFor="let lang of priority" [ngValue]="lang.value">
+        {{lang.display}}
       </option>
     </select>
     <div *ngIf="form.get('priority').invalid && form.get('priority').dirty" class="text-danger">
