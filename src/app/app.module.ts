@@ -9,6 +9,8 @@ import {BugModule} from './features/bug/bug.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatPaginatorIntl} from '@angular/material';
 import {MatPaginatorIntlGr} from './models/mat-paginator.intl';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpInterceptorService} from './core/httpInterceptor.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,11 @@ import {MatPaginatorIntlGr} from './models/mat-paginator.intl';
       BugModule,
       BrowserAnimationsModule
     ],
-  providers: [{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlGr}],
+  providers: [{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlGr},{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

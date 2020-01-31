@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import { Config } from 'protractor';
-import {map} from 'rxjs/operators';
 
 export interface Bug {
   id: string;
@@ -25,25 +23,19 @@ export class BugService {
 
   }
 
-  getAllWithoutParams() {
-    return this.http.get(
-      this.endpoint, { observe: 'response' });
-  }
-
   getAll(sort: string, page: string, size: string, title: string, priority: string, reporter: string, status: string) {
     return this.http.get(
       this.endpoint, {
         observe: 'response' ,
         params: new HttpParams()
-          .set('sort', sort.toString())
-          .set('page', page.toString())
-          .set('size', size.toString())
-          .set('title', title.toString())
-          .set('priority', priority.toString())
-          .set('reporter', reporter.toString())
-          .set('status', status.toString())
-      },
-      )
+          .set('sort', sort)
+          .set('page', page)
+          .set('size', size)
+          .set('title', title)
+          .set('priority', priority)
+          .set('reporter', reporter)
+          .set('status', status)
+      })
   }
 
   pushBug(bug: Bug): Observable<Bug> {
