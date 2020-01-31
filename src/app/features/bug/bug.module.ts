@@ -4,6 +4,7 @@ import { BugComponent } from './bug/bug.component';
 import {AppRoutingModule} from '../../app-routing.module';
 import {RouterModule} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material';
 
 
 
@@ -15,7 +16,8 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonModule
   ]
 })
 export class BugModule { }

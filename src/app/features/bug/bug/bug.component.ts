@@ -27,7 +27,7 @@ export class BugComponent implements OnInit {
       priority: new FormControl(null, Validators.required),
       reporter: new FormControl(null, Validators.required),
       status: new FormControl(null, Validators.required),
-      comments: new FormArray([this.createCommentFormGroup()])
+      comments: new FormArray([])
     });
 
     const paramId = this.route.snapshot.params.id;
@@ -38,7 +38,7 @@ export class BugComponent implements OnInit {
         if (response.comments) {
           response.comments.forEach(comment => {
             const commentFormGroup = this.createCommentFormGroup(comment);
-            this.commentArray.push((commentFormGroup))
+            this.commentArray.push((commentFormGroup));
           })
         }
       });
@@ -51,9 +51,14 @@ export class BugComponent implements OnInit {
 
   private createCommentFormGroup(comment?) {
     return new FormGroup({
-      reporter: new FormControl(comment && comment.reporter),
-      description: new FormControl(comment && comment.description)
+      reporter: new FormControl(comment && comment.reporter,[Validators.required, Validators.minLength(3)]),
+      description: new FormControl(comment && comment.description,[Validators.required, Validators.minLength(3)])
     })
+  }
+
+  addComment(event: MouseEvent){
+    event.stopPropagation();
+    this.commentArray.push(this.createCommentFormGroup());
   }
 
   formSubmit(form: FormGroup) {

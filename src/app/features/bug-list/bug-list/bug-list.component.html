@@ -57,6 +57,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getRecordForEdit(row.id)"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons  (page)="pageEvent = getServerData($event)"></mat-paginator>
   </div>
 </div>
