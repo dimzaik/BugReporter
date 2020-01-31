@@ -1,18 +1,40 @@
 <div>
-  <div>
+
+  <div class="row">
     <button class="mat-button" [routerLink]="'addBug'">Add new Bug</button>
   </div>
-  <div>
-    <form class="form-inline md-form mr-auto mb-4">
-      <input  type="text" class="form-control" id="titleSearchInput" placeholder="Title" aria-label="Title">
-      <input  type="text" class="form-control" id="prioritySearchInput" placeholder="Priority" aria-label="Priority">
-      <input  type="text" class="form-control" id="reporterSearchInput" placeholder="Reporter" aria-label="Reporter">
-      <input  type="text" class="form-control" id="statusSearchInput" placeholder="Status" aria-label="Status">
-      <button class="mat-button"[routerLink]="'applyFilter'">Search</button>
-    </form>
-  </div>
-  <div>
 
+  <div class="row">
+
+    <div class="col-1">
+      <label>Advanced Search</label>
+    </div>
+
+    <div class="col-10">
+      <form [formGroup]="form" class="form-inline md-form mr-auto mb-4">
+        <input type="text" class="form-control" id="titleSearchInput" placeholder="Title" aria-label="Title" formControlName="title">
+        <select class="form-control" id="prioritySearchInput" aria-label="Priority" formControlName="priority">
+          <option [ngValue]=""></option>
+          <option *ngFor="let lang of priority" [ngValue]="lang.value">
+            {{lang.display}}
+          </option>
+        </select>
+        <input type="text" class="form-control" id="reporterSearchInput" placeholder="Reporter" aria-label="Reporter" formControlName="reporter">
+        <input type="text" class="form-control" id="statusSearchInput" placeholder="Status" aria-label="Status" formControlName="status">
+        <button mat-button title="Search" (click)="applyFilter(form)">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+        <button mat-button title="Clear Filter" (click)="clearFilter()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </form>
+    </div>
+    <div class="col-1">
+      <label>Advanced Search</label>
+    </div>
+  </div>
+
+  <div>
     <table mat-table [dataSource]="buglist" matSort class="mat-elevation-z8">
 
       <ng-container matColumnDef="title">
@@ -63,6 +85,12 @@
 
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons  (page)="pageEvent = getServerData($event)"></mat-paginator>
+    <mat-paginator
+      [pageSize]="dataPageSize"
+      [length]="dataLength"
+      [showFirstLastButtons]="true"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="getServerData($event)">
+    </mat-paginator>
   </div>
 </div>
