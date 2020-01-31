@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import { Config } from 'protractor';
+import {map} from 'rxjs/operators';
 
 export interface Bug {
   id: string;
@@ -20,10 +21,29 @@ export interface Bug {
 export class BugService {
   private readonly endpoint = 'https://bug-report-system-server.herokuapp.com/bugs';
 
-  constructor(private http: HttpClient) { }
-  getAll() {
+  constructor(private http: HttpClient) {
+
+  }
+
+  getAllWithoutParams() {
     return this.http.get(
       this.endpoint, { observe: 'response' });
+  }
+
+  getAll(sort: string, page: string, size: string, title: string, priority: string, reporter: string, status: string) {
+    return this.http.get(
+      this.endpoint, {
+        observe: 'response' ,
+        params: new HttpParams()
+          .set('sort', sort.toString())
+          .set('page', page.toString())
+          .set('size', size.toString())
+          .set('title', title.toString())
+          .set('priority', priority.toString())
+          .set('reporter', reporter.toString())
+          .set('status', status.toString())
+      },
+      )
   }
 
   pushBug(bug: Bug): Observable<Bug> {

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Bug, BugService} from '../../../core/bug.service';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource, PageEvent} from '@angular/material';
 import {Router} from '@angular/router';
 import {switchMap, tap} from 'rxjs/operators';
 
@@ -16,6 +16,13 @@ export class BugListComponent implements OnInit {
 
   buglist: MatTableDataSource<Bug>;
   headers: string[];
+  pageNumber: number;
+  pageEvent: PageEvent;
+  datasource: null;
+  pageIndex:number;
+  pageSize:number;
+  length:number;
+
 
   applyFilter(filterValue: string) {
     this.buglist.filter = filterValue.trim().toLowerCase();
@@ -23,6 +30,22 @@ export class BugListComponent implements OnInit {
 
   getRecordForEdit(bugId: string) {
     this.router.navigate(['/editBug', bugId]);
+  }
+
+  getServerData(event: PageEvent){
+      return this.bugService.getAll('',event.pageIndex.toString(),event.pageSize.toString(),'','','','').pipe(
+        tap((response: any) => {
+          // this.buglist = new MatTableDataSource(response);
+          const bug: any = response.body;
+          debugger;
+          const keys = response.headers.keys();
+          this.buglist = new MatTableDataSource(bug);
+          this.headers = keys.map(key =>
+            `${key}: ${response.headers.get(key)}`);
+          this.buglist.sort = this.sort;
+          this.buglist.paginator = this.paginator;
+        })
+      );
   }
 
   deleteBug(bugId: string,event: MouseEvent){
@@ -36,12 +59,25 @@ export class BugListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
+    this.pageNumber=0;
     this.getAllBugs().subscribe();
   }
 
   private getAllBugs() {
-    return this.bugService.getAll().pipe(
+    /*return this.bugService.getAllWithoutParams().pipe(
       tap((response) => {
+        // this.buglist = new MatTableDataSource(response);
+        const bug: any = response.body;
+        const keys = response.headers.keys();
+        this.buglist = new MatTableDataSource(bug);
+        this.headers = keys.map(key =>
+          `${key}: ${response.headers.get(key)}`);
+        this.buglist.sort = this.sort;
+        this.buglist.paginator = this.paginator;
+      })
+    );*/
+    return this.bugService.getAll('','','','','','','').pipe(
+      tap((response: any) => {
         // this.buglist = new MatTableDataSource(response);
         const bug: any = response.body;
         const keys = response.headers.keys();
@@ -53,4 +89,5 @@ export class BugListComponent implements OnInit {
       })
     );
   }
+
 }
