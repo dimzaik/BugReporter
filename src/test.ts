@@ -14,7 +14,21 @@ getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );
-// Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
+// // Then we find all the tests.
+// const context = require.context('./', true, /\.spec\.ts$/);
+// // And load the modules.
+// context.keys().map(context);
+
+const app = require.context('./', true, /app.component\.spec\.ts$/);
 // And load the modules.
-context.keys().map(context);
+app.keys().map(app);
+
+const buglist = require.context('./', true, /bug-list.component\.spec\.ts$/);
+// And load the modules.
+buglist.keys().map(buglist);
+
+const bug = require.context('./', true, /bug.component\.spec\.ts$/);
+// And load the modules.
+bug.keys().map(bug);
+
+

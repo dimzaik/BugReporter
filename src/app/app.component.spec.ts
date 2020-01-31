@@ -30,6 +30,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('ch-BugReporter app is running!');
+    expect(compiled.querySelector('.toolbar > span:nth-child(2)').textContent).toContain('Bugger');
   });
 });
