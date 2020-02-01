@@ -4,7 +4,7 @@ import { BugListComponent } from './bug-list.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatTableModule, MatSortModule, MatPaginatorModule, MatFormFieldModule, MatInputModule } from '@angular/material';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,7 +25,8 @@ describe('BugListComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         FormsModule,
-        HttpClientTestingModule],
+        HttpClientTestingModule,
+        ReactiveFormsModule],
       declarations: [BugListComponent],
     }).compileComponents();
   }));
@@ -44,6 +45,6 @@ describe('BugListComponent', () => {
     const fixture = TestBed.createComponent(BugListComponent);
     const component = fixture.debugElement.nativeElement;
     fixture.detectChanges();
-    expect(component.querySelector('.mat-button').textContent).toEqual('Add new Bug');
+    expect(component.querySelector('#addBtn').textContent).toEqual('Add new Bug');
   });
 });
