@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Bug, BugService} from '../../../core/bug.service';
-import {MatPaginator, MatSort, MatTableDataSource, PageEvent} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource, PageEvent, Sort} from '@angular/material';
 import {Router} from '@angular/router';
 import {switchMap, tap} from 'rxjs/operators';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -31,6 +31,7 @@ export class BugListComponent implements OnInit {
   headers: string[];
   pageIndex: string;
   pageSize: string;
+  tableSort: string;
   filterValues:{
     title: string;
     priority: string;
@@ -40,19 +41,20 @@ export class BugListComponent implements OnInit {
 
   ngOnInit() {
     this.createFilterForm();
+    this.tableSort='';
     this.filterValues =this.form.value;
-    this.getAllBugs('','',this.dataPageSize.toString(),'','','','').subscribe();
+    this.getAllBugs(this.tableSort,'',this.dataPageSize.toString(),'','','','').subscribe();
   }
 
   applyFilter(form: FormGroup) {
     this.filterValues = form.value;
-    return this.getAllBugs('','','5',this.filterValues.title,this.filterValues.priority,this.filterValues.reporter,this.filterValues.status).subscribe();
+    return this.getAllBugs(this.tableSort,'','5',this.filterValues.title,this.filterValues.priority,this.filterValues.reporter,this.filterValues.status).subscribe();
   }
 
   clearFilter(){
     this.createFilterForm();
     this.filterValues = this.form.value;
-    this.getAllBugs('','',this.dataPageSize.toString(),'','','','').subscribe();
+    this.getAllBugs(this.tableSort,'',this.dataPageSize.toString(),'','','','').subscribe();
   }
 
   private createFilterForm() {
@@ -68,10 +70,19 @@ export class BugListComponent implements OnInit {
     this.router.navigate(['/editBug', bugId]);
   }
 
+  sortData(event: Sort){
+    if (event.direction=="") {
+      this.tableSort='';
+    }else{
+      this.tableSort = event.active + ',' + event.direction;
+    }
+    return this.getAllBugs(this.tableSort, this.pageIndex,this.pageSize,this.filterValues.title,this.filterValues.priority,this.filterValues.reporter,this.filterValues.status).subscribe();
+  }
+
   getServerData(event: PageEvent){
     this.pageIndex =event.pageIndex.toString();
     this.pageSize =event.pageSize.toString();
-    return this.getAllBugs('', this.pageIndex,this.pageSize,this.filterValues.title,this.filterValues.priority,this.filterValues.reporter,this.filterValues.status).subscribe();
+    return this.getAllBugs(this.tableSort, this.pageIndex,this.pageSize,this.filterValues.title,this.filterValues.priority,this.filterValues.reporter,this.filterValues.status).subscribe();
   }
 
   deleteBug(bugId: string,event: MouseEvent){
@@ -90,7 +101,7 @@ export class BugListComponent implements OnInit {
         this.headers = keys.map(key =>
           response.headers.get(key));
         this.dataLength = +this.headers[5];
-        this.buglist.sort = this.sort;
+        //this.buglist.sort = this.sort;
       })
     );
   }
