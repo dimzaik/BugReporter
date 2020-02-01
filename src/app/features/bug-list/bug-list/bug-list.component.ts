@@ -3,7 +3,7 @@ import {Bug, BugService} from '../../../core/bug.service';
 import {MatPaginator, MatSort, MatTableDataSource, PageEvent, Sort} from '@angular/material';
 import {Router} from '@angular/router';
 import {switchMap, tap} from 'rxjs/operators';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-bug-list',
@@ -43,7 +43,7 @@ export class BugListComponent implements OnInit {
     this.createFilterForm();
     this.tableSort='';
     this.filterValues =this.form.value;
-    this.getAllBugs(this.tableSort,'',this.dataPageSize.toString(),'','','','').subscribe();
+    this.getAllBugs(this.tableSort,'',this.dataPageSize.toString(),this.filterValues.title,this.filterValues.priority,this.filterValues.reporter,this.filterValues.status).subscribe();
   }
 
   applyFilter(form: FormGroup) {
@@ -54,12 +54,12 @@ export class BugListComponent implements OnInit {
   clearFilter(){
     this.createFilterForm();
     this.filterValues = this.form.value;
-    this.getAllBugs(this.tableSort,'',this.dataPageSize.toString(),'','','','').subscribe();
+    this.getAllBugs(this.tableSort,'',this.dataPageSize.toString(),this.filterValues.title,this.filterValues.priority,this.filterValues.reporter,this.filterValues.status).subscribe();
   }
 
   private createFilterForm() {
     this.form = new FormGroup({
-      title: new FormControl('',),
+      title: new FormControl(''),
       priority: new FormControl(''),
       reporter: new FormControl(''),
       status: new FormControl('')
@@ -88,7 +88,7 @@ export class BugListComponent implements OnInit {
   deleteBug(bugId: string,event: MouseEvent){
     event.stopPropagation();
     this.bugService.deleteBug(bugId).pipe(
-      switchMap(() => this.getAllBugs('','','','','','',''))
+      switchMap(() => this.getAllBugs('',this.pageIndex,this.pageSize,this.filterValues.title,this.filterValues.priority,this.filterValues.reporter,this.filterValues.status))
     ).subscribe();
   }
 

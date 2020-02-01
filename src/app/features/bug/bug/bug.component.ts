@@ -51,8 +51,8 @@ export class BugComponent implements OnInit {
 
   private createCommentFormGroup(comment?) {
     return new FormGroup({
-      reporter: new FormControl(comment && comment.reporter,[Validators.required, Validators.minLength(3)]),
-      description: new FormControl(comment && comment.description,[Validators.required, Validators.minLength(3)])
+      reporter: new FormControl(comment && comment.reporter),
+      description: new FormControl(comment && comment.description)
     })
   }
 
