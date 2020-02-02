@@ -1,6 +1,6 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
-process.env.CHROME_BIN = require('puppeteer').executablePath();
+//process.env.CHROME_BIN = require('puppeteer').executablePath();
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -18,7 +18,13 @@ module.exports = function (config) {
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/ch-BugReporter'),
       reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true
+      fixWebpackSourcePaths: true,
+      thresholds: {
+        statements: 100,
+        lines: 100,
+        branches: 100,
+        functions: 100
+      }
     },
     angularCli: {
       environment: 'dev'
@@ -40,7 +46,7 @@ module.exports = function (config) {
       }
     },
     browserNoActivityTimeout: 70000,
-    browsers: ['ChromeHeadless'],
+    browsers: ['Chrome'],
     singleRun: true,
     restartOnFileChange: true
   });
